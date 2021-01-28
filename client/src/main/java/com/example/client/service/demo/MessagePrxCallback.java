@@ -14,5 +14,4 @@ public abstract class MessagePrxCallback extends TarsAbstractCallback {
 	public abstract void callback_encode(String ret);
 
 	public abstract void callback_encodeWithSend(boolean ret);
-
 }
