@@ -1,0 +1,9 @@
+module Demo
+{
+	interface Restful
+	{
+                bool rpcSend(string msg);
+                string rpcEncode(string sign);
+                bool rpcEncodeWithSend(string msg, string sign);
+	};
+};
