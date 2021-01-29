@@ -3,6 +3,9 @@ package com.example.tarsmqserver.domain;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+/**
+ * @author aomi.run
+ */
 @Component
 public class JmqConfig {
 

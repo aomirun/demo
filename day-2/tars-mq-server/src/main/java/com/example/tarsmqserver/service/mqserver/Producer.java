@@ -6,6 +6,9 @@ import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author aomi.run
+ */
 @Service("producer")
 @EnableJms
 public class Producer {
@@ -21,7 +24,7 @@ public class Producer {
      * @param destinationName
      * @param message
      */
-    public boolean sendMessage(String destinationName, final String message) {
+    public boolean sendMessage(String destinationName, String message) {
         boolean ok = false;
         try {
             jmsTemplate.convertAndSend(destinationName, message);

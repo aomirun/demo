@@ -9,6 +9,9 @@ import com.qq.tars.protocol.annotation.*;
 import com.qq.tars.protocol.tars.annotation.*;
 import com.qq.tars.common.support.Holder;
 
+/**
+ * @author aomi.run
+ */
 @Servant
 public interface MessageServant {
 

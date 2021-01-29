@@ -4,6 +4,7 @@ import com.example.tarsmqserver.domain.JmqConfig;
 import com.example.tarsmqserver.service.mqserver.MessageServant;
 import com.example.tarsmqserver.service.mqserver.Producer;
 import com.qq.tars.common.support.Holder;
+import com.qq.tars.common.util.StringUtils;
 import com.qq.tars.spring.annotation.TarsServant;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,18 +26,18 @@ public class MessageServantImpl implements MessageServant {
      * 发送消息到IBM MQ
      */
     @Override
-    public boolean send(final String msg) {
-        if (msg.length() == 0) {
+    public boolean send(String msg) {
+        if (StringUtils.isEmpty(msg)) {
             return false;
         }
 
-        final String queueName = jmqConfig.getSendQueueName();
+        String queueName = jmqConfig.getSendQueueName();
         return producer.sendMessage(queueName, msg);
     }
 
     @Override
-    public boolean encode(final String sign, final Holder<String> enStr) {
-        // TODO 先简单走流程 后面实现具体与ibmmq的对接
+    public boolean encode(String sign, Holder<String> enStr) {
+        // TODO 先简单走流程 后面实现具体加密签名之类的
         if (sign.length() == 0) {
             return false;
         }
@@ -45,17 +46,17 @@ public class MessageServantImpl implements MessageServant {
     }
 
     @Override
-    public boolean encodeWithSend(final String msg, final String sign) {
-        if (sign.length() == 0 || msg.length() == 0) {
+    public boolean encodeWithSend(String msg, String sign) {
+        if (StringUtils.isEmpty(msg) || StringUtils.isEmpty(sign)) {
             return false;
         }
 
-        final Holder<String> enStr = new Holder<String>();
-        final boolean ok = encode(sign, enStr);
+        Holder<String> enStr = new Holder<String>();
+        boolean ok = encode(sign, enStr);
         if (!ok) {
             return false;
         }
 
-        return send(enStr + msg);
+        return send(enStr.getValue() + msg);
     }
 }
