@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>tars-mq-server</artifactId>
+	<artifactId>mqwebservice</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>tars-mq-server</name>
+	<name>mqwebservice</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>1.8</java.version>
@@ -23,46 +23,46 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.tencent.tars</groupId>
-			<artifactId>tars-spring-boot-starter</artifactId>
-			<version>1.7.2</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>com.ibm.mq</groupId>
-			<artifactId>mq-jms-spring-boot-starter</artifactId>
-			<version>2.4.2</version>
-		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.tencent.tars</groupId>
+			<artifactId>tars-client</artifactId>
+			<version>1.7.2</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>com.tencent.tars</groupId>
+			<artifactId>tars-spring-boot-starter</artifactId>
+			<version>1.7.2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.75</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.11</version>
 		</dependency>
 
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-			<version>1.2.3</version>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-access</artifactId>
-			<version>1.2.3</version>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>1.2.3</version>
-		</dependency>
 	</dependencies>
 
 	<build>
-		<finalName>mqserver</finalName>
+		<finalName>mqwebservice</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -75,20 +75,20 @@
 				<version>1.7.2</version>
 				<configuration>
 					<tars2JavaConfig>
-						<!-- tars file location -->
+						<!-- tars文件位置 -->
 						<tarsFiles>
 							<tarsFile>${basedir}/src/main/resources/mqserver.tars</tarsFile>
 						</tarsFiles>
-						<!-- Source file encoding -->
+						<!-- 源文件编码 -->
 						<tarsFileCharset>UTF-8</tarsFileCharset>
-						<!-- Generate server code -->
-						<servant>true</servant>
-						<!-- Generated source code encoding -->
+						<!-- 生成代码，PS：客户端调用，这里需要设置为false -->
+						<servant>false</servant>
+						<!-- 生成源代码编码 -->
 						<charset>UTF-8</charset>
-						<!-- Generated source code directory -->
+						<!-- 生成的源代码目录 -->
 						<srcPath>${basedir}/src/main/java</srcPath>
-						<!-- Generated source code package prefix -->
-						<packagePrefixName>com.example.tarsmqserver.service.</packagePrefixName>
+						<!-- 生成源代码包前缀 -->
+						<packagePrefixName>com.example.mqwebservice.service.</packagePrefixName>
 					</tars2JavaConfig>
 				</configuration>
 			</plugin>

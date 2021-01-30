@@ -1,9 +1,0 @@
-module Demo
-{
-	interface Message
-	{
-        bool send(string msg);
-        string encode(string sign);
-        bool encodeWithSend(string msg, string sign);
-	};
-};
