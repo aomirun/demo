@@ -1,0 +1,9 @@
+module mqserver
+{
+	interface Message
+	{
+        bool send(string msg);
+        bool encode(string sign, out string enStr);
+        bool encodeWithSend(string msg, string sign);
+	};
+};
