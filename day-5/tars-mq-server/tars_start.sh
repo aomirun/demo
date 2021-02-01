@@ -1,0 +1,3 @@
+#!/bin/sh
+
+java -Dconfig=target/classes/example.mqserver.config.conf -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Xms2000m -Xmx2000m -Xmn1000m -Xss1000k -XX:CMSInitiatingOccupancyFraction=60 -XX:+CMSParallelRemarkEnabled -XX:+CMSScavengeBeforeRemark -verbosegc -XX:+PrintGCDetails -XX:ErrorFile=target/mqserver/logs/jvm_error.log -jar target/mqserver.jar

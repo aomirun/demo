@@ -1,0 +1,23 @@
+module mqserver
+{
+	interface Message
+	{
+                // msg 字符串内容原样发送
+                bool send(string msg);
+
+                // 用私钥对字符串进行加密,返回加密后的字符串
+                bool encode(string sign, out string enStr);
+
+                // 用私钥对字符串进行加密,并发送加密后的内容
+                bool encodeWithSend(string msg);
+
+                // 具体字符串拼接可能自己定义,是否在字符串中传输是否加密字符,或者默认约定哪些服务发送密文,哪些服务发送明文
+                // if isEncode = false then
+                // 对发送的原内容进行签名,之后签名字符串与原内容字符串使用 | 拼接为一个字符串后发送
+                // e.g: msg = abc, signStr = AF@FSDafe23 最后发送的字符串 msg = AF@FSDafe23|abc
+                // if isEncode = true then
+                // 对发送的原内容先进行签名并对原内容进行加密,之后使用 | 拼接为一个字符串后发送
+                // e.g: msg = abc signStr = AF@FSDafe23 enStr = ASFDHFHSGGG233f2f2fadfAGAF 最后发送的字符串 msg = AF@FSDafe23|ASFDHFHSGGG233f2f2fadfAGAF
+                bool signWithSend(string msg, bool isEncode);
+	};
+};

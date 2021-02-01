@@ -1,0 +1,49 @@
+module rsaserver
+{
+        // 公钥类型，不同功能可能都需要到公钥，如果不想统一使用同一个公钥，可以添加多种类型，供使用。
+        enum KeyType
+        {
+                PASSWORD,
+                PLAIN,
+                SIGN,
+                JWT
+        };
+
+        // 签名类型
+        enum SignType
+        {
+                MD5withRSA,
+                SHA1withRSA,
+                SHA256withRSA
+        };
+
+	interface Cipher
+	{
+                // 获取公钥 用于各应用需要公钥做加解密或签名使用
+                // 为了网络安全，私钥是不允许外部获取的，只能调用远程服务间接使用私钥。
+                bool getPublicKey(KeyType typ, out string pubKey);
+
+                // 生成一对新的公私钥，客户端获取后用于其它用途
+                // 默认生成的是长度1024 RSA的密钥对，有其它需要这个功能可以再加入参数就可以扩展了
+                // 为了简单，目前就不加参数了
+                bool genKey(out string priKey, out string pubKey);
+
+                // 使用私钥加密
+                bool encodeByPrivateKey(string data, out string enStr);
+
+                // 使用公钥加密
+                bool encodeByPublicKey(string data, out string enStr);
+
+                // 使用私钥解密
+                bool decodeByPrivateKey(string data, out string plain);
+
+                // 使用公钥解密
+                bool decodeByPublicKey(string data, out string plain);
+
+                // 生成数字签名
+                bool sign(string data, SignType typ, out string signStr);
+
+                // 验证数字签名
+                bool verify(string plain, string signStr, SignType typ);
+	};
+};
