@@ -26,7 +26,7 @@ public class CipherServantImpl implements CipherServant {
     @Autowired
     private RSAConfig rsaConfig;
 
-    private final static Logger RSA_LOGGER = LoggerFactory.getLogger("RSA");
+    private final static Logger RSA_LOGGER = LoggerFactory.getLogger("RSA_SERVER");
 
     @Override
     public boolean genKey(Holder<String> priKey, Holder<String> pubKey) {
@@ -47,7 +47,6 @@ public class CipherServantImpl implements CipherServant {
     @Override
     public boolean getPublicKey(int typ, Holder<String> pubKey) {
         String publicKey = rsaConfig.getPublicKey();
-        // KeyType keyType = KeyType.PASSWORD;
         KeyType convert = KeyType.convert(typ);
 
         // TODO 这里目前没有往下扩展，后续可以扩展完善
@@ -82,6 +81,10 @@ public class CipherServantImpl implements CipherServant {
 
     @Override
     public boolean encodeByPrivateKey(String data, Holder<String> enStr) {
+        if (StringUtils.isBlank(data)) {
+            return false;
+        }
+
         try {
             String privateKey = rsaConfig.getPrivateKey();
             String enData = RSAUtils.encryptedDataOnJavaByPrivateKey(data, privateKey);
@@ -96,6 +99,10 @@ public class CipherServantImpl implements CipherServant {
 
     @Override
     public boolean encodeByPublicKey(String data, Holder<String> enStr) {
+        if (StringUtils.isBlank(data)) {
+            return false;
+        }
+
         try {
             String publicKey = rsaConfig.getPublicKey();
             String enData = RSAUtils.encryptedDataOnJavaByPublicKey(data, publicKey);
@@ -110,6 +117,10 @@ public class CipherServantImpl implements CipherServant {
 
     @Override
     public boolean decodeByPrivateKey(String data, Holder<String> plain) {
+        if (StringUtils.isBlank(data)) {
+            return false;
+        }
+
         try {
             String privateKey = rsaConfig.getPrivateKey();
             String deData = RSAUtils.decryptDataOnJavaByPrivateKey(data, privateKey);
@@ -124,6 +135,10 @@ public class CipherServantImpl implements CipherServant {
 
     @Override
     public boolean decodeByPublicKey(String data, Holder<String> plain) {
+        if (StringUtils.isBlank(data)) {
+            return false;
+        }
+
         try {
             String publicKey = rsaConfig.getPublicKey();
             String deData = RSAUtils.decryptDataOnJavaByPublicKey(data, publicKey);
@@ -138,7 +153,12 @@ public class CipherServantImpl implements CipherServant {
 
     @Override
     public boolean sign(String data, int typ, Holder<String> signStr) {
+        if (StringUtils.isBlank(data)) {
+            return false;
+        }
+
         try {
+            // TODO 目前只使用了默认的 MD5withRSA 需要其它的功能,后续可以添加,通过入参typ来调用不同的方法
             String privateKey = rsaConfig.getPrivateKey();
             String enSign = RSAUtils.sign(data.getBytes(), privateKey);
             signStr.setValue(enSign);
@@ -152,6 +172,11 @@ public class CipherServantImpl implements CipherServant {
 
     @Override
     public boolean verify(String plain, String signStr, int typ) {
+        if (StringUtils.isBlank(plain) || StringUtils.isBlank(signStr)) {
+            return false;
+        }
+
+        // TODO 目前只使用了默认的 MD5withRSA 需要其它的功能,后续可以添加,通过入参typ来调用不同的方法
         try {
             String publicKey = rsaConfig.getPublicKey();
             boolean ok = RSAUtils.verify(plain.getBytes(), publicKey, signStr);

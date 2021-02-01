@@ -1,39 +1,54 @@
 package com.example.tarsmqserver.service.mqserver;
 
+import javax.jms.ConnectionFactory;
+
 import com.example.tarsmqserver.domain.JmqConfig;
 import com.qq.tars.support.log.LoggerFactory;
-import com.qq.tars.support.notify.NotifyHelper;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.jms.annotation.JmsListener;
-import org.springframework.jms.listener.adapter.MessageListenerAdapter;
+import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.util.ErrorHandler;
 
 import ch.qos.logback.classic.Logger;
 
-
-
-
-
-
 /**
  * @author aomi.run
- */ 
+ */
 @Component
-public class ConsumerListener extends MessageListenerAdapter {
-    // private static Logger logger = LoggerFactory.getLogger(ConsumerListener.class);
-    private final static Logger FLOW_LOGGER = LoggerFactory.getLogger("flow");
+public class ConsumerListener {
+    private final static Logger JMS_LISTENER = LoggerFactory.getLogger("JMS_LISTENER");
 
-    // private final static Logger FLOW_LOGGER = LoggerFactory.getLogger("flow"); 
     /**
      * 使用JmsListener配置消费者监听的队列
      * 
      * @param receivedMsg 接收到的消息
      */
+
+    // @JmsListener(destination = "DEV.QUEUE.1")
     @JmsListener(destination = "#{@conf.recvQueueName}")
     public void receiveQueue(String receivedMsg) {
-        FLOW_LOGGER.info("Consumer收到的报文为: {}", receivedMsg);
-        NotifyHelper.getInstance().notifyNormal(receivedMsg);
+        JMS_LISTENER.info("RECEIVE: {}", receivedMsg);
+    }
+
+    @Bean
+    public DefaultJmsListenerContainerFactory jmsListenerContainerFactory(ConnectionFactory connectionFactory,
+            ExampleErrorHandler errorHandler) {
+        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory);
+        factory.setErrorHandler(errorHandler);
+        return factory;
+    }
+
+    @Service
+    public class ExampleErrorHandler implements ErrorHandler {
+        @Override
+        public void handleError(Throwable t) {
+            // handle exception here
+            JMS_LISTENER.error(t.toString());
+        }
     }
 
     @Bean

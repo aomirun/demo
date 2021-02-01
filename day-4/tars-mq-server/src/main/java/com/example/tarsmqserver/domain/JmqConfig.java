@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class JmqConfig {
-
+ 
     @Value("${ibm.mq.sendQueueName}")
     private String sendQueueName;
 

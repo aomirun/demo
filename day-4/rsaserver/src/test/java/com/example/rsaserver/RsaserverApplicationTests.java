@@ -29,11 +29,11 @@ class RsaserverApplicationTests {
 			assertNotNull(publicKey);
 			assertNotNull(privateKey);
 
-			System.out.printf("RSAPublicKey base64 string is %s\n", publicKey);
-			System.out.printf("RSAPrivateKey base64 string is %s\n", privateKey);
+			// System.out.printf("RSAPublicKey base64 string is %s\n", publicKey);
+			// System.out.printf("RSAPrivateKey base64 string is %s\n", privateKey);
 
-			System.out.printf("RSAPublicKey byte is %s", keyPair.get("RSAPublicKey"));
-			System.out.printf("RSAPublicKey byte is %s", keyPair.get("RSAPrivateKey"));
+			// System.out.printf("RSAPublicKey byte is %s", keyPair.get("RSAPublicKey"));
+			// System.out.printf("RSAPublicKey byte is %s", keyPair.get("RSAPrivateKey"));
 
 		} catch (Exception e) {
 			fail(e);

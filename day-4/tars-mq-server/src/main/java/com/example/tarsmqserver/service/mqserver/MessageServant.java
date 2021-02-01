@@ -9,9 +9,6 @@ import com.qq.tars.protocol.annotation.*;
 import com.qq.tars.protocol.tars.annotation.*;
 import com.qq.tars.common.support.Holder;
 
-/**
- * @author aomi.run
- */
 @Servant
 public interface MessageServant {
 
@@ -19,5 +16,7 @@ public interface MessageServant {
 
 	 boolean encode(@TarsMethodParameter(name="sign")String sign, @TarsHolder(name="enStr") Holder<String> enStr);
 
-	 boolean encodeWithSend(@TarsMethodParameter(name="msg")String msg, @TarsMethodParameter(name="sign")String sign);
+	 boolean encodeWithSend(@TarsMethodParameter(name="msg")String msg);
+
+	 boolean signWithSend(@TarsMethodParameter(name="msg")String msg, @TarsMethodParameter(name="isEncode")boolean isEncode);
 }
