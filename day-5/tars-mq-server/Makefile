@@ -19,7 +19,7 @@ LOG=$(LOG_PATH)$(JVMERRORNAME)
 
 .phone: test
 test:
-	mvn test
+	mvn test -Dconfig=$(CONF)
 
 .phone: run
 run:
